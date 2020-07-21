@@ -1,0 +1,266 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Calendar {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+<!-- Bootstrap 4 -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+<!-- Font Awesome -->
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+<!-- Moment.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js" integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="anonymous"></script>
+
+<!-- Tempus Dominus Bootstrap 4 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" integrity="sha256-XPTBwC3SBoWHSmKasAk01c08M6sIA5gF5+sRxqak2Qs=" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js" integrity="sha256-z0oKYg6xiLq3yJGsp/LsY9XykbweQlHl42jHv2XTBz4=" crossorigin="anonymous"></script>
+
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+ <!-- jQuery -->
+ <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+ <!-- XDSoft DateTimePicker -->
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
+<style>
+   .panel.date {
+    margin: 0px;
+    width: 45px;
+    text-align: center;
+}
+
+.panel.date .month {
+    padding: 2px 0px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.panel.date .day {
+    padding: 3px 0px;
+    font-weight: 500;
+    font-size: 1.5em;
+}
+
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+
+<nav aria-label="breadcrumb" role="navigation">
+   <ol class="breadcrumb">
+     <li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
+     <li class="breadcrumb-item active" aria-current="page">Calendar</li>
+   </ol>
+</nav>
+
+      <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#new-event">  
+         <i class="material-icons">add</i>Create Event
+      </button><br>
+     
+ <!-------------------Datetimepicker Input with fullcalendar/datetimepicker plugins----------------->
+
+      <div class="col-sm-6" style="height: 70px; width: 1200px;margin-left: auto;margin-right: auto;">
+            
+                  <div class="input-group date" id="datetimepicker11"data-target-input="nearest">
+                     <label class="label-control"><b>&nbsp; Datetime Picker :&nbsp;</b></label>
+                     <input type='text' class="form-control datetimepicker" data-target="#datetimepicker1" />
+                     <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="material-icons">today</i></div>
+                     </div>
+                     
+                  </div>
+         
+       </div>
+  <!-------------------------------------table of events---------------------------------------------->
+  <div class="table-responsive-md">
+     <h6 class="card-title">View Meetings & Events </h6><br>
+   <table class="table table-hover" id="post-table">
+     <thead class="table-info">
+     <tr>
+         <th >ID</th>
+         <th>Title</th>
+         <th>Location</th>
+         <th>Date & Time</th>
+         <th>Organized By</th>
+         <th>Number of participants</th>
+         <th>Actions</th>
+     </tr>
+     </thead>
+     <tbody>
+       <tr >
+         <td> #</td>
+         <td>Trainers'Party </td>
+         <td> 2nd floor,room 1 </td>
+         <td>20-07-2020</td>
+         <td>
+            {{ user.username }}
+         </td>
+         <td>4</td>
+         <td> 
+            <button type="submit" class="btn btn-info btn-"  data-toggle="modal" data-target="#edit-event"> 
+               <i class="material-icons">update</i>
+            </button>
+            <button type="submit" class="btn btn-danger"  data-toggle="modal" data-target="#delete-event">
+               <i class="material-icons">delete_forever</i> 
+            </button>
+         </td>         
+       </tr>
+       <tr >
+         <td> #</td>
+         <td>Brainstorming </td>
+         <td> room 2 </td>
+         <td>21-07-2020</td>
+         <td>
+            {{ user.username }}
+         </td>
+         <td>10</td>
+         <td> 
+            <button type="submit" class="btn btn-info btn-"  data-toggle="modal" data-target="#edit-event"> 
+               <i class="material-icons">update</i>
+            </button>
+            <button type="submit" class="btn btn-danger"  data-toggle="modal" data-target="#delete-event">
+               <i class="material-icons">delete_forever</i> 
+            </button>
+         </td>         
+       </tr>
+   </tbody>
+ </table> 
+</div>
+<br><br>
+
+<!---------------------------------------Modal to add event------------------------------------------->
+<!--* Modal init *-->
+<div class="modal" id="new-event" tabindex="-1" role="dialog" aria-labelledby="new-event-label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+       <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header ">
+         <h6 class="modal-title">Add an Event  </h6>
+         <button type="button" class="close" data-dismiss="modal">&times;</button>
+       </div>
+          <!-- Modal body -->
+          <div class="modal-body">
+             <form class="new-event--form">
+                <div class="form-group">
+                   <label class="form-control-label">Event title :</label>
+                   <input type="text" class="form-control form-control-alternative new-event--title" placeholder="Event Title">
+                </div>
+                <div class="form-group">
+                  <label class="form-control-label">Event location :</label>
+                  <input type="text" class="form-control form-control-alternative edit-event--title" placeholder="Location">
+               </div>               
+               <div class="form-group">
+                  <label class="form-control-label">Event Date and time : </label>
+                  <input type="text" class="form-control form-control-alternative edit-event--title" placeholder="Date and time">
+               </div>
+               <div class="form-group">
+                  <label class="form-control-label">Number of guests :</label>
+                  <select class="form-control" id="sel1">
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>More</option>
+                  </select>
+                  <br>
+                  </div>               
+
+             </form>
+          </div>
+          <!-- Modal footer -->
+          <div class="modal-footer">
+             <button type="submit" class="btn btn-success new-event--add">Add event</button>
+             <button type="button" class="btn btn-link ml-auto btn-default" data-dismiss="modal">Close</button>
+          </div>
+       </div>
+    </div>
+ </div>
+
+<!---------------------------------------Modal to Edit calendar event------------------------------------------->
+ 
+
+ <div class="modal" id="edit-event" tabindex="-1" role="dialog" aria-labelledby="edit-event-label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+       <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header ">
+         <h4 class="modal-title">Edit Event : </h4>
+         <button type="button" class="close" data-dismiss="modal">&times;</button>
+       </div>
+          <!-- Modal body -->
+          <div class="modal-body">
+             <form class="edit-event--form">
+                <div class="form-group">
+                   <label class="form-control-label">Event title :</label>
+                   <input type="text" class="form-control form-control-alternative edit-event--title" placeholder="Title">
+                </div>
+                <div class="form-group">
+                  <label class="form-control-label">Event location :</label>
+                  <input type="text" class="form-control form-control-alternative edit-event--title" placeholder="Location">
+               </div>               
+               <div class="form-group">
+                  <label class="form-control-label">Event Date and time : </label>
+                  <input type="text" class="form-control form-control-alternative edit-event--title" placeholder="Date and time">
+               </div>
+                <div class="form-group">
+                   <label class="form-control-label">Description :</label>
+                   <textarea class="form-control form-control-alternative edit-event--description textarea-autosize" placeholder="Desctiption"></textarea>
+                   <i class="form-group--bar"></i>
+                </div>
+              
+             </form>
+          </div>
+          <!-- Modal footer -->
+          <div class="modal-footer">
+             <button class="btn btn-info" data-calendar="update">Update</button>
+             <button class="btn btn-danger" data-calendar="delete">Delete</button>
+             <button class="btn btn-link ml-auto btn-default" data-dismiss="modal">Close</button>
+          </div>
+       </div>
+    </div>
+ </div>
+
+ <!-- -------------------------------The Modal to delete an Event ---------------------------------------->
+ <div class="modal" id="delete-event">
+   <div class="modal-dialog">
+     <div class="modal-content">           
+       <div class="modal-header">
+         <i class="material-icons">warning</i>
+         <h6 class="modal-title">Confirm Event Deletion</h6>
+         <button type="button" class="close" data-dismiss="modal">&times;</button>
+       </div>          
+ 
+             <form method="post" action="" >
+               {% csrf_token %}
+ 
+               <div class="modal-body">
+                 <p class="lead">Are you sure you want to delete this event ?</p>
+               </div>
+               <div class="modal-footer">
+                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                 <button type="submit" class="btn btn-danger" >Delete </button>
+               </div>
+             </form>
+ 
+ </div>
+   </div>
+     </div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script>
+   $(document).ready(function() {
+     //init DateTimePickers
+     md.initFormExtendedDatetimepickers();
+   });
+ </script>
+   
+  
+{% endblock javascripts %}

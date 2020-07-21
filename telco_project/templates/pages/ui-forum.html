@@ -1,0 +1,300 @@
+
+{% extends "layouts/base.html" %}
+
+{% block title %} Forum {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block javascripts %}
+
+{% endblock javascripts %}
+
+{% block content %}
+
+
+<nav aria-label="breadcrumb" role="navigation">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Forum</li>
+  </ol>
+</nav><br>
+<div class="card">
+    <div class="card-header card-header-info">
+      <h3 class="card-title">Welcome to our forum space</h3>
+    </div>
+    <br>
+    <nav class="navbar navbar-expand-sm bg-light navbar-light">
+ 
+    <!-- -----------------------filter Links -------------------------------------------->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <input type="text" class="form-control"placeholder="Topic" >
+      </li>
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Mode
+        </a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="#">DHCP</a>
+            <a class="dropdown-item" href="#">WAN</a>
+          </div>        
+      </li>
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+          Project
+        </a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="#">Project 1</a>
+          <a class="dropdown-item" href="#">Project 2</a>
+          <a class="dropdown-item" href="#">Project 3</a>
+        </div>
+      </li>
+
+      <li>
+        <input class="form-control mr-sm-2" type="text" id="myInput"placeholder="Search">
+      </li>
+      <li>
+        <button type="button" class="btn btn-fab-mini btn-info" ><i class="material-icons">search</i></button>
+      </li>
+    </ul>
+</nav>
+<div class="card-content">
+
+    <!--  <button type="button" class="btn btn-info "  data-url="{% url 'blog_posts:post_new' %}" data-toggle="modal" data-target="#myModal">
+        <span class="glyphicon glyphicon-plus"></span> -->
+        &nbsp;&nbsp;<button type="button" class="btn btn-info "  data-toggle="modal" data-target="#myModal">
+          <span class="glyphicon glyphicon-plus"></span>  
+          <i class="material-icons">add</i>
+          New Post
+      </button>
+    
+    <br>
+
+<!-- --------------------------The Modal for Adding post---------------------------------- -->
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Add New Post</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <form method="post" action="" >
+        {% csrf_token %}
+
+      <div class="modal-body">
+        Do you want to add a post ?
+         <div class="modal-body">
+          <div class="form-group bmd-form-group">
+            <br>
+            <label class="bmd-label-floating"></label>
+            <input type="text" class="form-control"placeholder="Title">
+            <br>
+            <label class="bmd-label-floating"></label>
+            <input type="text" class="form-control"placeholder="Author">
+
+          <br>
+            <label class="bmd-label-floating"></label>
+            <input type="text" class="form-control"placeholder="Subject">
+          <br>
+
+            <label for="bmd-label-floating">Comment</label>
+            <textarea type="text" class="form-control"  placeholder="Write your comment.." style="height:300px"></textarea>
+          </div>
+          
+         </div>
+
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-success "  data-url="{% url 'blog_posts:post_new' %}"> <i class="material-icons">done</i>Submit
+        </button>
+      </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- --------------------------The Modal for Editing a post---------------------------------- -->
+<div class="modal" id="myModal1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header ">
+        <i class="material-icons">create</i>
+        <h6 class="modal-title">Edit Post</h6>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <form method="post" action="" class="js-post-update-form">
+        {% csrf_token %}
+
+        <div class="modal-body">
+          <div class="form-group bmd-form-group">
+            <br>
+            <label class="bmd-label-floating"></label>
+            <input type="text" class="form-control"placeholder="Title">
+            <br>
+            <label class="bmd-label-floating"></label>
+            <input type="text" class="form-control"placeholder="Author">
+
+          <br>
+            <label class="bmd-label-floating"></label>
+            <input type="text" class="form-control"placeholder="Subject">
+          <br>
+
+            <label for="bmd-label-floating">Comment</label>
+            <textarea type="text" class="form-control"  placeholder="Write your comment.." style="height:300px"></textarea>
+          </div>
+          
+         </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-success js-update-post"  ><i class="material-icons">done</i>Submit</button>     
+      </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+    <!----------------------------table------------------------------------------->
+  <div class="table-responsive-md">
+    <table class="table table-hover" id="post-table">
+      <thead class="table-info">
+      <tr>
+          <th >ID</th>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Project</th>
+          <th>Answers</th>
+          <th>Reactions</th>
+          <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+        <tr >
+          <td> #</td>
+          <td> Post 1 </td>
+          <td> User01 </td>
+          <td>Platform 1</td>
+          <td>
+            <a href="{% url 'post_detail' %}">Available answers</a>
+          </td>
+          <td>
+            <button class="btn btn-info btn-fab btn-fab-mini btn-round">
+              <i class="material-icons">favorite</i>
+            </button>
+          </td>
+          <td> 
+            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal1"><i class="material-icons">create</i></button>
+            <button type="submit" class="btn btn-danger"  data-toggle="modal" data-target="#myModal2"><i class="material-icons">delete_forever</i> </button>
+            <button type="submit" class="btn btn-info" data-toggle="modal" data-target="#myModal4"><i class="material-icons">attach_file</i></button>
+
+          </td>         
+        </tr>
+    </tbody>
+  </table> 
+</div>
+ <!-- ----------------------The Modal for deleting a post------------------------------>
+<div class="modal" id="myModal2">
+  <div class="modal-dialog">
+    <div class="modal-content">           
+      <div class="modal-header">
+        <i class="material-icons">warning</i>
+        <h6 class="modal-title">Confirm Post Deletion</h6>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>          
+
+            <form method="post" action="" class="js-post-delete-form">
+              {% csrf_token %}
+
+              <div class="modal-body">
+                <p class="lead">Are you sure you want to delete the post <strong>{{ post.title }}</strong>?</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-danger js-post-delete" >Delete post</button>
+              </div>
+            </form>
+
+</div>
+  </div>
+    </div>
+
+<!--------------------------------Modal to join files-------------------------------------->
+<div class="modal" id="myModal4">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h6 class="modal-title">Upload file :</h6>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <form method="post" action="" >
+        {% csrf_token %}
+
+      <div class="modal-body">
+        Are you sure you want to upload a file?
+         <div class="modal-body">
+          <div class="custom-file mb-3">
+            <input type="file" class="custom-file-input" id="customFile" name="filename">
+            <label class="custom-file-label" for="customFile">Choose file</label>
+          </div>
+    
+          <div class="mt-3">
+            <button type="submit" class="btn btn-success"><i class="material-icons">done</i>Submit</button>
+          </div>
+    
+        <script>
+          // Add the following code if you want the name of the file appear on select
+          $(".custom-file-input").on("change", function() {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+          });
+          </script>
+         </div>
+
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+      </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+</div></div>
+
+<!----------------------------------------------Pagination------------------------------------->
+  <br><br>
+
+  <ul class="pagination">
+    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+    <li class="page-item"><a class="page-link" href="#">1</a></li>
+    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+  </ul>
+
+{% endblock %}
+
+
+
+

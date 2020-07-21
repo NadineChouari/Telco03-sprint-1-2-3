@@ -1,0 +1,151 @@
+
+  <!--   Core JS Files   -->
+  <script src="/static/assets/js/core/jquery.min.js"></script>
+  <script src="/static/assets/js/core/popper.min.js"></script>
+  <script src="/static/assets/js/core/bootstrap-material-design.min.js"></script>
+  <script src="/static/assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+  <!-- Plugin for the momentJs  -->
+  <script src="/static/assets/js/plugins/moment.min.js"></script>
+  <!--  Plugin for Sweet Alert -->
+  <script src="/static/assets/js/plugins/sweetalert2.js"></script>
+  <!--<link rel="stylesheet" href="assets/vendor/sweetalert2/dist/sweetalert2.min.css">-->
+  <!-- Forms Validations Plugin -->
+  <script src="/static/assets/js/plugins/jquery.validate.min.js"></script>
+  <!-- Plugin for the Wizard, full documentation here: https://github.com/VinceG/twitter-bootstrap-wizard -->
+  <script src="/static/assets/js/plugins/jquery.bootstrap-wizard.js"></script>
+  <!--	Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
+  <script src="/static/assets/js/plugins/bootstrap-selectpicker.js"></script>
+  <!--  Plugin for the DateTimePicker, full documentation here: https://eonasdan.github.io/bootstrap-datetimepicker/ -->
+  <script src="/static/assets/js/plugins/bootstrap-datetimepicker.min.js"></script>
+  <!--  DataTables.net Plugin, full documentation here: https://datatables.net/  -->
+  <script src="/static/assets/js/plugins/jquery.dataTables.min.js"></script>
+  <!--	Plugin for Tags, full documentation here: https://github.com/bootstrap-tagsinput/bootstrap-tagsinputs  -->
+  <script src="/static/assets/js/plugins/bootstrap-tagsinput.js"></script>
+  <!-- Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
+  <script src="/static/assets/js/plugins/jasny-bootstrap.min.js"></script>
+  <!--  Full Calendar Plugin, full documentation here: https://github.com/fullcalendar/fullcalendar    -->
+  <script src="/static/assets/js/plugins/fullcalendar.min.js"></script>
+
+  <!-- Vector Map plugin, full documentation here: http://jvectormap.com/documentation/ -->
+  <script src="/static/assets/js/plugins/jquery-jvectormap.js"></script>
+  <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
+  <script src="/static/assets/js/plugins/nouislider.min.js"></script>
+  <!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support SweetAlert -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
+  <!-- Library for adding dinamically elements -->
+  <script src="/static/assets/js/plugins/arrive.min.js"></script>
+  <!--  Google Maps Plugin    -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+  <!-- Chartist JS -->
+  <script src="/static/assets/js/plugins/chartist.min.js"></script>
+  <!--  Notifications Plugin    -->
+  <script src="/static/assets/js/plugins/bootstrap-notify.js"></script>
+  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="/static/assets/js/material-dashboard.js?v=2.1.1" type="text/javascript"></script>
+  <!-- Material Dashboard DEMO methods, don't include it in your project! -->
+  <script src="/static/assets/demo/demo.js"></script>
+  
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+
+   <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script>
+      // Add the following code if you want the name of the file appear on select
+      $(".custom-file-input").on("change", function() {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+      });
+      </script>
+<script>
+$(function () {
+
+/* Functions */
+
+var loadForm = function () {
+  var btn = $(this);
+  $.ajax({
+    url: btn.attr("data-url"),
+    type: 'get',
+    dataType: 'json',
+    beforeSend: function () {
+      $("#modal-post .modal-content").html("");
+      $("#modal-post").modal("show");
+    },
+    success: function (data) {
+      $("#modal-post .modal-content").html(data.html_form);
+    }
+  });
+};
+
+var saveForm = function () {
+  var form = $(this);
+  $.ajax({
+    url: form.attr("action"),
+    data: form.serialize(),
+    type: form.attr("method"),
+    dataType: 'json',
+    success: function (data) {
+      if (data.form_is_valid) {
+        $("#post-table tbody").html(data.html_post_list);
+        $("#modal-post").modal("hide");
+      }
+      else {
+        $("#modal-post .modal-content").html(data.html_form);
+      }
+    }
+  });
+  return false;
+};
+
+
+/* Binding */
+
+// Create post
+$(".js-create-post").click(loadForm);
+$("#modal-post").on("submit", ".js-post-create-form", saveForm);
+
+// Update post
+$("#post-table").on("click", ".js-update-post", loadForm);
+$("#modal-post").on("submit", ".js-post-update-form", saveForm);
+
+// Delete post
+$("#post-table").on("click", ".js-delete-post", loadForm);
+$("#modal-post").on("submit", ".js-post-delete-form", saveForm);
+
+});
+</script>
+
+<script>
+  $('.datetimepicker').datetimepicker({
+     icons: {
+       time: "fa fa-clock-o",
+       date: "fa fa-calendar",
+       up: "fa fa-chevron-up",
+       down: "fa fa-chevron-down",
+       previous: 'fa fa-chevron-left',
+       next: 'fa fa-chevron-right',
+       today: 'fa fa-screenshot',
+       clear: 'fa fa-trash',
+       close: 'fa fa-remove'
+     }
+   });
+  
+  </script>
+<script src="../../static/assets/js/plugins/fullcalendar.min.js"></script>
+<script type="text/javascript">
+  $(function () {
+      $('#datetimepicker1').datetimepicker();
+  });
+</script>
+
+   <script src="../../static/assets/js/plugins/bootstrap-datetimepicker.min.js"></script>
+   <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>

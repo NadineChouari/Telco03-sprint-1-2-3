@@ -1,0 +1,25 @@
+{% for post in posts %}
+  <tr>
+    <td>{{ post.id }}</td>
+    <td>{{ post.title }}</td>
+    <td>{{ post.author }}</td>
+
+    <td>
+      <button type="button"
+              class="btn btn-warning btn-sm js-update-post"
+              data-url="{% url 'blog_posts:post_update' post.id %}">
+        <span class="glyphicon glyphicon-pencil"></span>
+      </button>
+      <button type="button"
+              class="btn btn-danger btn-sm js-delete-post"
+              data-url="{% url 'blog_posts:post_delete' post.id %}">
+        <span class="glyphicon glyphicon-trash"></span>
+      </button>
+
+    </td>
+  </tr>
+{% empty %}
+  <tr>
+    <td colspan="8" class="text-center bg-warning">No post</td>
+  </tr>
+{% endfor %}

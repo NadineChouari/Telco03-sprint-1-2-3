@@ -1,0 +1,222 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} UI Tables {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+<link href="css/bootstrap.css" rel="stylesheet" />
+<link href="css/rotating-card.css" rel="stylesheet" />
+<link href="https://netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+{% endblock stylesheets %}
+
+{% block content %}
+
+<nav aria-label="breadcrumb" role="navigation">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">List of users</li>
+  </ol>
+</nav>
+<br>
+<button type="button" class="btn btn-info "  data-toggle="modal" data-target="#add_user">
+  <span class="glyphicon glyphicon-plus"></span>  
+  <i class="material-icons">person_add</i>
+  Add user
+</button>
+<br><br>
+            <div class="col-md-12">
+              <div class="card card-plain">
+                <div class="card-header card-header-info">
+                  <h4 class="card-title mt-0">List of users </h4>
+                  <p class="card-category"> Here is a list of our platform users</p>
+                </div>
+
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-hover table ">
+                      <thead class="table-info">
+                       <!-- à modifier + ajout d'un champs actions edit/delete -->
+                        <th> ID </th>
+                        <th> Name  </th>
+                        <th> Email</th>
+                        <th> Phone</th>
+                        <th> Skill</th>
+                        <th> Actions</th>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>1</td>
+                          <td> user1</td>
+                          <td>user1@gmail.com</td>
+                          <td>+216 52 12 12 12</td>
+                          <td>Front end</td>
+                          <td> 
+                            <button type="button" class="btn btn-outline-warning" data-toggle="modal" data-target="#myModal1"><i class="material-icons">create</i>Edit</button>
+                            <button type="submit" class="btn btn-outline-danger"  data-toggle="modal" data-target="#myModal2"><i class="material-icons">delete_forever</i>Delete</button>
+                        
+                          </td>    
+                        </tr>
+                        <!-- dynamic data-->
+                        <tr>
+                          <td>{{request.user.id}}</td>
+                          <td>{{request.user.username}}</td>
+                          <td>{{request.user.email}}</td>
+                          <td></td>
+                          <td></td>
+                          <td> 
+                            <button type="button" class="btn btn-outline-warning" data-toggle="modal" data-target="#myModal1"><i class="material-icons">create</i>Edit</button>
+                            <button type="submit" class="btn btn-outline-danger"  data-toggle="modal" data-target="#myModal2"><i class="material-icons">delete_forever</i>Delete</button>
+                          </td>    
+                        </tr>
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+
+
+<!-- --------------------------The Modal for Adding a user profile---------------------------------- -->
+<div class="modal" id="add_user">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h6 class="modal-title">Add new user :</h6>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <form method="post" action="">
+        {% csrf_token %}
+
+        <div class="modal-body">
+          <div class="form-group bmd-form-group">
+            <br>
+            <label class="bmd-label-floating"></label>
+            <input type="text" class="form-control"placeholder="Username">
+            <br>
+            <label class="bmd-label-floating"></label>
+            <input type="email" class="form-control"placeholder="Email">
+
+          <br>
+            <label class="bmd-label-floating"></label>
+            <input type="text" class="form-control"placeholder="Phone">
+          <br>
+          <label class="bmd-label-floating"></label>
+          <input type="text" class="form-control"placeholder="Department">
+        <br>
+        <label class="bmd-label-floating"></label>
+        <input type="text" class="form-control"placeholder="Skill">
+      <br>
+
+            <label for="bmd-label-floating">Description</label>
+            <textarea type="text" class="form-control"  placeholder="Write more description.." style="height:300px"></textarea>
+          </div>
+          
+         </div>
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-success " >Submit</button>     
+      </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+<!-- ----------------------The Modal for deleting a user acount------------------------------>
+<div class="modal" id="myModal2">
+  <div class="modal-dialog">
+    <div class="modal-content">           
+      <div class="modal-header modal-header-danger">
+        <h4 class="modal-title">Confirm User Deletion</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>          
+
+            <form method="post" action="">
+              {% csrf_token %}
+
+              <div class="modal-body">
+                <p class="lead">Are you sure you want to delete the user account ? <strong>{{ user.username }}</strong>?</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-danger">Delete</button>
+              </div>
+            </form>
+
+</div>
+  </div>
+    </div>
+
+<!-- --------------------------The Modal for Editing a user profile---------------------------------- -->
+<div class="modal" id="myModal1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Edit user profile</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <form method="post" action="">
+        {% csrf_token %}
+
+        <div class="modal-body">
+          <div class="form-group bmd-form-group">
+            <br>
+            <label class="bmd-label-floating"></label>
+            <input type="text" class="form-control"placeholder="Username">
+            <br>
+            <label class="bmd-label-floating"></label>
+            <input type="email" class="form-control"placeholder="Email">
+
+          <br>
+            <label class="bmd-label-floating"></label>
+            <input type="text" class="form-control"placeholder="Phone">
+          <br>
+          <label class="bmd-label-floating"></label>
+          <input type="text" class="form-control"placeholder="Department">
+        <br>
+        <label class="bmd-label-floating"></label>
+        <input type="text" class="form-control"placeholder="Skill">
+      <br>
+
+            <label for="bmd-label-floating">Comment</label>
+            <textarea type="text" class="form-control"  placeholder="Write your comment.." style="height:300px"></textarea>
+          </div>
+          
+         </div>
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-success " >Submit</button>     
+      </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+   <!---     <br><br><br>
+        <ul class="pagination">
+          <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+          <li class="page-item"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item"><a class="page-link" href="#">Next</a></li>
+        </ul> -->
+
+       
+ 
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

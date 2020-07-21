@@ -1,0 +1,39 @@
+{% extends "layouts/base.html" %}
+{% load staticfiles %}
+{% load static %}
+
+{% block javascript %}
+  <script src="{% static 'posts/js/posts.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+  <h1 class="page-header">posts</h1>
+
+  <p>
+    <button type="button" class="btn btn-primary js-create-post" data-url="{% url 'blog_posts:post_new' %}">
+      <span class="glyphicon glyphicon-plus"></span>
+      New post
+    </button>
+  </p>
+
+  <table class="table" id="post-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Title</th>
+        <th>Author</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% include "../blog_posts/includes/partial_post_list.html" %}
+    </tbody>
+  </table>
+
+  <div class="modal fade" id="modal-post">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+      </div>
+    </div>
+  </div>
+{% endblock %}

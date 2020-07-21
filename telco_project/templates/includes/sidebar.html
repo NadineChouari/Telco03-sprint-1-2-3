@@ -1,0 +1,61 @@
+<div class="sidebar" data-color="blue" data-background-color="white" data-image="/static/assets/img/sidebar-1.jpg">
+  <div class="logo">
+
+    <img class="img logo-normal" style="align-content: center;" src="/static/assets/img/faces/telnet.jpg" />
+  </div>
+
+  {% if user.is_authenticated %}
+  <div class="sidebar-wrapper">
+    <ul class="nav">
+      <li class="nav-item {% if 'index' == segment %} active {% endif %}">
+        <a class="nav-link" href="/">
+          <i class="material-icons">dashboard</i>
+          <p>Telnet Chat_App</p>
+        </a>
+      </li>
+      <li class="nav-item ">
+        <a class="nav-link" href="{% url 'profile' %}">
+          <i class="material-icons">person</i>
+          <p>User Profile</p>
+        </a>
+      </li>
+      <li class="nav-item ">
+        <a class="nav-link" href="{% url 'users' %}">
+          <i class="material-icons">content_paste</i>
+          <p>Users List</p>
+        </a>
+      </li>
+
+      <li class="nav-item">
+         <a class="nav-link" href="{% url 'forum' %}">
+          <i class="material-icons">forum</i>
+          <p>Forum</p>
+        </a>
+      </li>
+      <li class="nav-item ">
+        <a class="nav-link" href="{% url 'calendar' %}">
+          <i class="material-icons">event</i>
+          <p>Meetings Calendar</p>
+        </a>
+      </li>
+
+      <li class="nav-item ">
+        <a class="nav-link" href="{% url 'notifications' %}">
+          <i class="material-icons">notifications</i>
+          <p>Tips</p>
+        </a>
+      </li>
+
+
+      <li class="nav-item ">
+        <a class="nav-link" href="{% url 'logout' %}" >
+          <i class="material-icons">directions_run</i>
+          <p>Logout</p>
+        </a>
+      </li>
+
+    </ul>
+  </div>
+  {% endif %}
+
+</div>
